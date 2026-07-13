@@ -5,10 +5,10 @@ Sistema de controle de estacionamento (entrada, saída e cálculo de valor por t
 ## Tecnologias
 
 - C#
-- ASP.NET Core MVC
-- Entity Framework Core
+- ASP.NET MVC
+- ADO
 - SQL Server
-- Bootstrap 5
+- Bootstrap 3
 
 ## Como rodar
 
