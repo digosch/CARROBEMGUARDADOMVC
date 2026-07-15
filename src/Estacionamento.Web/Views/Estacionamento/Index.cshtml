@@ -1,0 +1,70 @@
+@model Estacionamento.Web.ViewModels.EstacionamentoIndexViewModel
+
+@{
+    ViewData["Title"] = "Entrada/Saída";
+}
+
+<style>
+    .cabecalho-tabela { background-color: #4a69bd; color: white; }
+    .mensagem-sucesso { color: green; }
+    .mensagem-erro { color: red; }
+    .cabecalho-sistema { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .cabecalho-sistema .data-hora { display: flex; align-items: center; gap: 0.5rem; color: #4a69bd; }
+</style>
+
+<div class="cabecalho-sistema">
+    <h1>Controle de Estacionamento</h1>
+    <div class="data-hora">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11" />
+            <rect x="3" y="11" width="18" height="6" rx="2" />
+            <circle cx="7.5" cy="17" r="1.5" />
+            <circle cx="16.5" cy="17" r="1.5" />
+        </svg>
+        <span>@DateTime.Now.ToString("dddd, dd 'de' MMMM 'de' yyyy HH:mm", new System.Globalization.CultureInfo("pt-BR"))</span>
+    </div>
+</div>
+
+@if (TempData["Mensagem"] != null)
+{
+    <p class="@(TempData["Sucesso"] as bool? == true ? "mensagem-sucesso" : "mensagem-erro")">
+        @TempData["Mensagem"]
+    </p>
+}
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <partial name="_MarcarEntradaForm" model="Model.Entrada" />
+    </div>
+    <div class="col-md-6">
+        <partial name="_MarcarSaidaForm" model="Model.Saida" />
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="cabecalho-tabela">
+            <th>Placa</th>
+            <th>Horário de Chegada</th>
+            <th>Horário de Saída</th>
+            <th>Duração</th>
+            <th>Tempo Cobrado (hora)</th>
+            <th>Preço(Hora)</th>
+            <th>Valor a Pagar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Registros)
+        {
+            <tr>
+                <td>@item.Placa</td>
+                <td>@item.HorarioChegada.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                <td>@(item.HorarioSaida?.ToString("dd/MM/yyyy HH:mm:ss") ?? "Em andamento")</td>
+                <td>@(item.Duracao?.ToString() ?? "-")</td>
+                <td>@(item.TempoCobradoHoras?.ToString("0.#") ?? "-")</td>
+                <td>@(item.Preco.HasValue ? item.Preco.Value.ToString("C", new System.Globalization.CultureInfo("pt-BR")) : "-")</td>
+                <td>@(item.ValorAPagar.HasValue ? item.ValorAPagar.Value.ToString("C", new System.Globalization.CultureInfo("pt-BR")) : "-")</td>
+            </tr>
+        }
+    </tbody>
+</table>

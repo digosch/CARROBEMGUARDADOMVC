@@ -1,0 +1,10 @@
+@model Estacionamento.Web.ViewModels.MarcarEntradaViewModel
+
+<form asp-action="MarcarEntrada" asp-controller="Estacionamento" method="post" class="form-inline">
+    <label asp-for="Placa">Marcar Entrada</label>
+    <div class="input-group">
+        <input asp-for="Placa" class="form-control" maxlength="8" placeholder="Placa" />
+        <button type="submit" class="btn btn-primary">Marcar Entrada</button>
+    </div>
+    <span asp-validation-for="Placa" class="mensagem-erro"></span>
+</form>
